@@ -40,7 +40,6 @@ namespace Products.API.Services
         {
             var categoryCreated = _mapper.Map<Category>(category);
             await _repository.Create(categoryCreated);
-            await _unitOfWork.CommitAsync();
             category.categoryid = categoryCreated.categoryid;
         }
 
@@ -48,14 +47,12 @@ namespace Products.API.Services
         {
             var category = _repository.GetById(id).Result;
             await _repository.Delete(category.categoryid);
-            await _unitOfWork.CommitAsync();
         }
 
         public async Task Update(CategoryDTO category)
         {
             var categoryUpdated = _mapper.Map<Category>(category);
             await _repository.Update(categoryUpdated);
-            await _unitOfWork.CommitAsync();
         }
     }
 }

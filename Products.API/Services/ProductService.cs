@@ -33,7 +33,6 @@ namespace Products.API.Services
         {
             var productCreated = _mapper.Map<Product>(product);
             await _repository.Create(productCreated);
-            await _unitOfWork.CommitAsync();
             product.id = productCreated.id;
         }
 
@@ -41,7 +40,6 @@ namespace Products.API.Services
         {
             var product = _repository.GetById(id).Result;
             await _repository.Delete(product.id);
-            await _unitOfWork.CommitAsync();
         }
 
 
@@ -49,7 +47,6 @@ namespace Products.API.Services
         {
             var productUpdated = _mapper.Map<Product>(product);
             await _repository.Update(productUpdated);
-            await _unitOfWork.CommitAsync();
         }
     }
 }

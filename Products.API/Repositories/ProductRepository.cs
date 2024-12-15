@@ -23,20 +23,26 @@ namespace Products.API.Repositories
             return await _context.products.Include(c => c.category).Where(p => p.id == id)
             .FirstOrDefaultAsync();
         }
-        public async Task Create(Product product)
+        public async Task<Product> Create(Product product)
         {
             _context.products.Add(product);
+            await _context.SaveChangesAsync();
+            return product;
         }
 
-        public async Task Delete(int id)
+        public async Task<Product> Update(Product product)
+        {
+            _context.Entry(product).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return product;
+        }
+
+        public async Task<Product> Delete(int id)
         {
             var product = await GetById(id);
             _context.products.Remove(product);
-        }
-
-        public async Task Update(Product product)
-        {
-            _context.Entry(product).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return product;
         }
     }
 }

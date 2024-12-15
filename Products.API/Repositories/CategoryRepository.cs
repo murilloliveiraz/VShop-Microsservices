@@ -23,18 +23,24 @@ namespace Products.API.Repositories
         {
             return await _context.categories.Include(c => c.products).ToListAsync();
         }
-        public async Task Create(Category category)
+        public async Task<Category> Create(Category category)
         {
-            await _context.categories.AddAsync(category);
+            _context.categories.Add(category);
+            await _context.SaveChangesAsync();
+            return category;
         }
-        public async Task Update(Category category)
+        public async Task<Category> Update(Category category)
         {
             _context.Entry(category).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return category;
         }
-        public async Task Delete(int id)
+        public async Task<Category> Delete(int id)
         {
             var category = await GetById(id);
             _context.categories.Remove(category);
+            await _context.SaveChangesAsync();
+            return category;
         }
     }
 }

@@ -22,8 +22,7 @@ namespace Products.API.DTOs
         public string? description { get; set; }
 
         [Required(ErrorMessage = "The Stock is Required")]
-        [MinLength(1)]
-        [MaxLength(9999)]
+        [Range(1, 9999)]
         public long stock { get; set; }
 
         public string? imageurl { get; set; }
