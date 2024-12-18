@@ -1,14 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Products.API.DTOs;
 using Products.API.Models;
+using Products.API.Roles;
 using Products.API.Services;
 
 namespace Products.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
@@ -69,6 +72,7 @@ namespace Products.API.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = Role.Admin)]
         public async Task<ActionResult> Delete(int id)
         {
             var category = await _categoryService.GetCategoryById(id);

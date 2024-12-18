@@ -34,7 +34,7 @@ namespace Products.API.Migrations
 
                     b.HasKey("categoryid");
 
-                    b.ToTable("categories");
+                    b.ToTable("categories", (string)null);
 
                     b.HasData(
                         new
@@ -86,7 +86,7 @@ namespace Products.API.Migrations
 
                     b.HasIndex("categoryid");
 
-                    b.ToTable("products");
+                    b.ToTable("products", (string)null);
                 });
 
             modelBuilder.Entity("Products.API.Models.Product", b =>
