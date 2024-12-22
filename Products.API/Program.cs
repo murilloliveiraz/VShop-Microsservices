@@ -46,6 +46,14 @@ c.AddSecurityRequirement(new OpenApiSecurityRequirement
     });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder => builder.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader());
+});
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultPostgres");
 builder.Services.AddDbContext<ApplicationContext>(options => 
     options.UseNpgsql(connectionString), ServiceLifetime.Transient, ServiceLifetime.Transient
@@ -91,6 +99,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("CorsPolicy");
+app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
