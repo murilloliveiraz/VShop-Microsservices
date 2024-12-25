@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ShoppingCart.API.Contexts;
+using ShoppingCart.API.Repositories;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,6 +45,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 
+builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultPostgres");
