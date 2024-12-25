@@ -14,6 +14,23 @@ namespace ShoppingCart.API.Controllers
         {
             _repository = repository;
         }
+
+        [HttpPost("checkout")]
+        public async Task<ActionResult<CheckoutHeaderDTO>> Checkout(CheckoutHeaderDTO checkoutDto)
+        {
+            var cart = await _repository.GetCartByUserIdAsync(checkoutDto.UserId);
+
+            if (cart is null)
+            {
+                return NotFound($"Cart Not found for {checkoutDto.UserId}");
+            }
+
+            checkoutDto.CartItems = cart.CartItems;
+            checkoutDto.DateTime = DateTime.Now;
+
+            return Ok(checkoutDto);
+        }
+
         [HttpGet("getcart/{userId}")]
         public async Task<ActionResult<CartDTO>> GetByUserId(string userId)
         {

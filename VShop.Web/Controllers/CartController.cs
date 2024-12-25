@@ -12,10 +12,38 @@ namespace VShop.Web.Controllers
         private readonly ICartService _cartService;
         private readonly ICouponService _couponService;
 
-        public CartController(ICartService cartService, ICouponService couponService)
+        public CartController(ICartService cartService, ICouponService couponService) 
         {
             _cartService = cartService;
             _couponService = couponService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Checkout()
+        {
+            CartViewModel? cartVM = await GetCartByUser();
+            return View(cartVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Checkout(CartViewModel cartVM)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _cartService.CheckoutAsync(cartVM.CartHeader, await GetAccessToken());
+
+                if (result is not null)
+                {
+                    return RedirectToAction(nameof(CheckoutCompleted));
+                }
+            }
+            return View(cartVM);
+        }
+
+        [HttpGet]
+        public IActionResult CheckoutCompleted()
+        {
+            return View();
         }
 
         [Authorize]
