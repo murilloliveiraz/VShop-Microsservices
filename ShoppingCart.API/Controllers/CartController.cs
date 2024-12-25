@@ -14,7 +14,7 @@ namespace ShoppingCart.API.Controllers
         {
             _repository = repository;
         }
-        [HttpGet("getcart/{id}")]
+        [HttpGet("getcart/{userId}")]
         public async Task<ActionResult<CartDTO>> GetByUserId(string userId)
         {
             var cartDto = await _repository.GetCartByUserIdAsync(userId);
